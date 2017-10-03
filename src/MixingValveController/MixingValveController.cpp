@@ -5,7 +5,7 @@
 // Authors:
 // Peter Polidoro polidorop@janelia.hhmi.org
 // ----------------------------------------------------------------------------
-#include "MixingValveController.h"
+#include "../MixingValveController.h"
 
 
 using namespace mixing_valve_controller;

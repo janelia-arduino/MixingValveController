@@ -24,14 +24,14 @@ License:
 
 [power_switch_controller](https://github.com/janelia-modular-devices/power_switch_controller.git)
 
-## API
+## API NAMES
 
 ```json
 ```
 
-## API Verbose
+## API GENERAL
 
-[API Verbose](./api/)
+[API GENERAL](./api/)
 
 ## More Detailed Modular Device Information
 

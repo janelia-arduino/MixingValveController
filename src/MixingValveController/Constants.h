@@ -7,8 +7,8 @@
 // ----------------------------------------------------------------------------
 #ifndef MIXING_VALVE_CONTROLLER_CONSTANTS_H
 #define MIXING_VALVE_CONTROLLER_CONSTANTS_H
-#include "ConstantVariable.h"
-#include "PowerSwitchController.h"
+#include <ConstantVariable.h>
+#include <PowerSwitchController.h>
 
 
 namespace mixing_valve_controller
