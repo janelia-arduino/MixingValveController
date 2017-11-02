@@ -37,7 +37,9 @@ public:
   MixingValveController();
   virtual void setup();
 
-  int mix(Array<size_t,mixing_valve_controller::constants::VALVE_COUNT_MAX> ratio);
+  typedef Array<size_t,mixing_valve_controller::constants::VALVE_COUNT_MAX> Ratio;
+
+  Ratio mix(Ratio ratio);
 
 private:
   modular_server::Property properties_[mixing_valve_controller::constants::PROPERTY_COUNT_MAX];
@@ -45,10 +47,19 @@ private:
   modular_server::Function functions_[mixing_valve_controller::constants::FUNCTION_COUNT_MAX];
   modular_server::Callback callbacks_[mixing_valve_controller::constants::CALLBACK_COUNT_MAX];
 
-  IndexedContainer<mixing_valve_controller::constants::MixInfo,
-                   mixing_valve_controller::constants::MIX_COUNT_MAX> indexed_mix_info_;
+  mixing_valve_controller::constants::MixInfo mix_info_;
+
+  // Timing
+  long mixing_volume_fill_duration_;
+  long valve_on_duration_min_;
+
+  Ratio constrainRatio(Ratio ratio);
+  size_t ratioSum(Ratio ratio);
 
   // Handlers
+  void setValveCountHandler();
+  void updateTimingHandler();
+  void getTimingHandler();
   void mixHandler();
   void mixHandler(int index);
 

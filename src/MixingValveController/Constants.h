@@ -16,9 +16,9 @@ namespace mixing_valve_controller
 namespace constants
 {
 //MAX values must be >= 1, >= created/copied count, < RAM limit
-enum{PROPERTY_COUNT_MAX=2};
+enum{PROPERTY_COUNT_MAX=5};
 enum{PARAMETER_COUNT_MAX=1};
-enum{FUNCTION_COUNT_MAX=1};
+enum{FUNCTION_COUNT_MAX=2};
 enum{CALLBACK_COUNT_MAX=1};
 
 enum{VALVE_COUNT_MAX=power_switch_controller::constants::CHANNEL_COUNT};
@@ -33,28 +33,57 @@ struct MixInfo
 {
   Array<size_t,VALVE_COUNT_MAX> ratio;
   EventId event_id;
-  uint8_t valve;
-  size_t count;
+  size_t valve;
   size_t inc;
+  bool enabled;
 };
+
+extern ConstantString mixing_volume_fill_duration_string;
+extern ConstantString valve_on_duration_min_string;
+
+extern const long seconds_per_minute;
+extern const long milliseconds_per_second;
 
 // Interrupts
 
 // Units
+extern ConstantString ml_units;
+extern ConstantString ml_per_min_units;
 
 // Properties
 // Property values must be long, double, bool, long[], double[], bool[], char[], ConstantString *, (ConstantString *)[]
 extern ConstantString valve_count_property_name;
+extern const long valve_count_min;
+extern const long valve_count_max;
 extern const long valve_count_default;
 
-extern ConstantString mix_unit_duration_property_name;
-extern const long mix_unit_duration_min;
-extern const long mix_unit_duration_max;
-extern const long mix_unit_duration_default;
+extern ConstantString mixing_volume_property_name;
+extern const long mixing_volume_min;
+extern const long mixing_volume_max;
+extern const long mixing_volume_default;
+
+extern ConstantString flow_rate_property_name;
+extern const long flow_rate_min;
+extern const long flow_rate_max;
+extern const long flow_rate_default;
+
+extern ConstantString resolution_property_name;
+extern const long resolution_min;
+extern const long resolution_max;
+extern const long resolution_default;
+
+extern ConstantString valve_switch_duration_property_name;
+extern const long valve_switch_duration_min;
+extern const long valve_switch_duration_max;
+extern const long valve_switch_duration_default;
 
 // Parameters
+extern ConstantString ratio_parameter_name;
+extern const long ratio_min;
+extern const long ratio_max;
 
 // Functions
+extern ConstantString get_timing_function_name;
 extern ConstantString mix_function_name;
 
 // Callbacks
