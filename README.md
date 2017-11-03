@@ -27,6 +27,30 @@ License:
 ## API NAMES
 
 ```json
+{
+  "id":"getApi",
+  "result":{
+    "firmware":["MixingValveController"],
+    "verbosity":"NAMES",
+    "functions":[
+      "getTiming",
+      "startMixing"
+    ],
+    "parameters":[
+      "ratio"
+    ],
+    "properties":[
+      "valveCount",
+      "mixingVolume",
+      "flowRate",
+      "resolution",
+      "valveSwitchDuration"
+    ],
+    "callbacks":[
+      "stopMixing"
+    ]
+  }
+}
 ```
 
 ## API GENERAL
