@@ -33,7 +33,7 @@ License:
     "firmware":["MixingValveController"],
     "verbosity":"NAMES",
     "functions":[
-      "getTiming",
+      "getMixTiming",
       "startMixing"
     ],
     "parameters":[
@@ -43,7 +43,7 @@ License:
       "valveCount",
       "mixingVolume",
       "flowRate",
-      "resolution",
+      "mixResolution",
       "valveSwitchDuration"
     ],
     "callbacks":[

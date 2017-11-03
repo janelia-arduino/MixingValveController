@@ -46,6 +46,11 @@ public:
   Ratio startMixing(Ratio ratio);
   void stopMixing();
 
+protected:
+  // Timing
+  long mixing_volume_fill_duration_;
+  long valve_open_duration_min_;
+
 private:
   modular_server::Property properties_[mixing_valve_controller::constants::PROPERTY_COUNT_MAX];
   modular_server::Parameter parameters_[mixing_valve_controller::constants::PARAMETER_COUNT_MAX];
@@ -54,17 +59,13 @@ private:
 
   mixing_valve_controller::constants::MixInfo mix_info_;
 
-  // Timing
-  long mixing_volume_fill_duration_;
-  long valve_open_duration_min_;
-
   Ratio constrainRatio(Ratio ratio);
   size_t ratioSum(Ratio ratio);
 
   // Handlers
   void setValveCountHandler();
-  void updateTimingHandler();
-  void getTimingHandler();
+  void updateMixTimingHandler();
+  void getMixTimingHandler();
   void startMixingHandler();
   void stopMixingHandler(modular_server::Interrupt * interrupt_ptr);
   void mixHandler(int index);

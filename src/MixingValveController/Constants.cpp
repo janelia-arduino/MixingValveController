@@ -52,10 +52,10 @@ const long flow_rate_min = 20;
 const long flow_rate_max = 80;
 const long flow_rate_default = 42;
 
-CONSTANT_STRING(resolution_property_name,"resolution");
-const long resolution_min = 10;
-const long resolution_max = 1000;
-const long resolution_default = 100;
+CONSTANT_STRING(mix_resolution_property_name,"mixResolution");
+const long mix_resolution_min = 10;
+const long mix_resolution_max = 1000;
+const long mix_resolution_default = 100;
 
 CONSTANT_STRING(valve_switch_duration_property_name,"valveSwitchDuration");
 const long valve_switch_duration_min = 10;
@@ -68,7 +68,7 @@ const long ratio_min = 0;
 const long ratio_max = 1000;
 
 // Functions
-CONSTANT_STRING(get_timing_function_name,"getTiming");
+CONSTANT_STRING(get_mix_timing_function_name,"getMixTiming");
 CONSTANT_STRING(start_mixing_function_name,"startMixing");
 
 // Callbacks

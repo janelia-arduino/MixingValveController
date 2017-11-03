@@ -5,7 +5,7 @@
     "verbosity":"GENERAL",
     "functions":[
       {
-        "name":"getTiming",
+        "name":"getMixTiming",
         "result_info":{
           "type":"object"
         }
@@ -147,7 +147,7 @@
         ]
       },
       {
-        "name":"resolution",
+        "name":"mixResolution",
         "type":"long",
         "functions":[
           {

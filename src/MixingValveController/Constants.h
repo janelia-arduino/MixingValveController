@@ -65,10 +65,10 @@ extern const long flow_rate_min;
 extern const long flow_rate_max;
 extern const long flow_rate_default;
 
-extern ConstantString resolution_property_name;
-extern const long resolution_min;
-extern const long resolution_max;
-extern const long resolution_default;
+extern ConstantString mix_resolution_property_name;
+extern const long mix_resolution_min;
+extern const long mix_resolution_max;
+extern const long mix_resolution_default;
 
 extern ConstantString valve_switch_duration_property_name;
 extern const long valve_switch_duration_min;
@@ -81,7 +81,7 @@ extern const long ratio_min;
 extern const long ratio_max;
 
 // Functions
-extern ConstantString get_timing_function_name;
+extern ConstantString get_mix_timing_function_name;
 extern ConstantString start_mixing_function_name;
 
 // Callbacks
