@@ -13,9 +13,9 @@
 #include <IndexedContainer.h>
 #include <FunctorCallbacks.h>
 
+#include <SPI.h>
+#include <TLE72X.h>
 #include <EventController.h>
-#include <OpticalSwitchInterface.h>
-#include <EncoderInterfaceSimple.h>
 
 #include <ModularClient.h>
 
