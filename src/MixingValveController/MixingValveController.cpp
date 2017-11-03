@@ -21,9 +21,6 @@ void MixingValveController::setup()
 
   // Pin Setup
 
-  // Variable Setup
-  mix_info_.enabled = false;
-
   // Set Device ID
   modular_server_.setDeviceName(constants::device_name);
 
@@ -59,7 +56,6 @@ void MixingValveController::setup()
 
   modular_server::Property & valve_switch_duration_property = modular_server_.createProperty(constants::valve_switch_duration_property_name,constants::valve_switch_duration_default);
   valve_switch_duration_property.setRange(constants::valve_switch_duration_min,constants::valve_switch_duration_max);
-  valve_switch_duration_property.attachPostSetValueFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::updateTimingHandler));
 
   // Parameters
   modular_server::Parameter & ratio_parameter = modular_server_.createParameter(constants::ratio_parameter_name);
@@ -75,24 +71,32 @@ void MixingValveController::setup()
   get_timing_function.attachFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::getTimingHandler));
   get_timing_function.setResultTypeObject();
 
-  modular_server::Function & mix_function = modular_server_.createFunction(constants::mix_function_name);
-  mix_function.attachFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::mixHandler));
-  mix_function.addParameter(ratio_parameter);
-  mix_function.setResultTypeLong();
-  mix_function.setResultTypeArray();
+  modular_server::Function & start_mixing_function = modular_server_.createFunction(constants::start_mixing_function_name);
+  start_mixing_function.attachFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::startMixingHandler));
+  start_mixing_function.addParameter(ratio_parameter);
+  start_mixing_function.setResultTypeLong();
+  start_mixing_function.setResultTypeArray();
 
   // Callbacks
+  modular_server::Callback & stop_mixing_callback = modular_server_.createCallback(constants::stop_mixing_callback_name);
+  stop_mixing_callback.attachFunctor(makeFunctor((Functor1<modular_server::Interrupt *> *)0,*this,&MixingValveController::stopMixingHandler));
 
 }
 
-MixingValveController::Ratio MixingValveController::mix(MixingValveController::Ratio ratio)
+MixingValveController::Ratio MixingValveController::startMixing(MixingValveController::Ratio ratio)
 {
+  stopMixing();
   Ratio mix_ratio = constrainRatio(ratio);
   mix_info_.ratio = mix_ratio;
   mix_info_.valve = 0;
-  mix_info_.inc = 0;
-  mix_info_.enabled = true;
+  mixHandler(-1);
   return mix_ratio;
+}
+
+void MixingValveController::stopMixing()
+{
+  event_controller_.remove(mix_info_.event_id);
+  setAllChannelsOff();
 }
 
 MixingValveController::Ratio MixingValveController::constrainRatio(MixingValveController::Ratio ratio)
@@ -178,22 +182,15 @@ void MixingValveController::updateTimingHandler()
   long resolution;
   modular_server_.property(constants::resolution_property_name).getValue(resolution);
 
-  long valve_switch_duration;
-  modular_server_.property(constants::valve_switch_duration_property_name).getValue(valve_switch_duration);
-
   mixing_volume_fill_duration_ = (mixing_volume*constants::seconds_per_minute*constants::milliseconds_per_second)/flow_rate;
-  valve_on_duration_min_ = mixing_volume_fill_duration_/resolution + valve_switch_duration/2;
+  valve_open_duration_min_ = mixing_volume_fill_duration_/resolution;
+  if (valve_open_duration_min_ < 1)
+  {
+    valve_open_duration_min_ = 1;
+  }
 
   modular_server::Parameter & ratio_parameter = modular_server_.parameter(constants::ratio_parameter_name);
   ratio_parameter.setRange(constants::ratio_min,resolution);
-
-  event_controller_.remove(mix_info_.event_id);
-  if (event_controller_.eventsAvailable())
-  {
-    mix_info_.event_id = event_controller_.addInfiniteRecurringEvent(makeFunctor((Functor1<int> *)0,*this,&MixingValveController::mixHandler),
-                                                                     valve_on_duration_min_);
-    event_controller_.enable(mix_info_.event_id);
-  }
 }
 
 void MixingValveController::getTimingHandler()
@@ -203,12 +200,12 @@ void MixingValveController::getTimingHandler()
   modular_server_.response().beginObject();
 
   modular_server_.response().write(constants::mixing_volume_fill_duration_string,mixing_volume_fill_duration_);
-  modular_server_.response().write(constants::valve_on_duration_min_string,valve_on_duration_min_);
+  modular_server_.response().write(constants::valve_open_duration_min_string,valve_open_duration_min_);
 
   modular_server_.response().endObject();
 }
 
-void MixingValveController::mixHandler()
+void MixingValveController::startMixingHandler()
 {
   ArduinoJson::JsonArray * ratio_ptr;
   modular_server_.parameter(constants::ratio_parameter_name).getValue(ratio_ptr);
@@ -222,29 +219,35 @@ void MixingValveController::mixHandler()
     mix_ratio.push_back((*ratio_ptr)[valve]);
   }
 
-  mix_ratio = mix(mix_ratio);
+  mix_ratio = startMixing(mix_ratio);
 
   modular_server_.response().returnResult(mix_ratio);
 }
 
+void MixingValveController::stopMixingHandler(modular_server::Interrupt * interrupt_ptr)
+{
+  stopMixing();
+}
+
 void MixingValveController::mixHandler(int index)
 {
-  if (!mix_info_.enabled)
-  {
-    return;
-  }
-
-  long valve_count;
-  modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
-
-  if (mix_info_.inc == mix_info_.ratio[mix_info_.valve])
-  {
-    mix_info_.valve = (mix_info_.valve + 1) % valve_count;
-    mix_info_.inc = 0;
-  }
-  if (mix_info_.inc == 0)
+  if (event_controller_.eventsAvailable())
   {
     setChannelOnAllOthersOff(mix_info_.valve);
+
+    long valve_switch_duration;
+    modular_server_.property(constants::valve_switch_duration_property_name).getValue(valve_switch_duration);
+
+    long valve_on_duration = (mix_info_.ratio[mix_info_.valve]*valve_open_duration_min_) + valve_switch_duration;
+
+    mix_info_.event_id = event_controller_.addEventUsingDelay(makeFunctor((Functor1<int> *)0,*this,&MixingValveController::mixHandler),
+                                                              valve_on_duration);
+
+    long valve_count;
+    modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
+
+    mix_info_.valve = (mix_info_.valve + 1) % valve_count;
+
+    event_controller_.enable(mix_info_.event_id);
   }
-  ++mix_info_.inc;
 }

@@ -25,7 +25,7 @@ const modular_server::FirmwareInfo firmware_info =
   };
 
 CONSTANT_STRING(mixing_volume_fill_duration_string,"mixing_volume_fill_duration");
-CONSTANT_STRING(valve_on_duration_min_string,"valve_on_duration_min");
+CONSTANT_STRING(valve_open_duration_min_string,"valve_open_duration_min");
 
 const long seconds_per_minute = 60;
 const long milliseconds_per_second = 1000;
@@ -69,9 +69,10 @@ const long ratio_max = 1000;
 
 // Functions
 CONSTANT_STRING(get_timing_function_name,"getTiming");
-CONSTANT_STRING(mix_function_name,"mix");
+CONSTANT_STRING(start_mixing_function_name,"startMixing");
 
 // Callbacks
+CONSTANT_STRING(stop_mixing_callback_name,"stopMixing");
 
 // Errors
 }

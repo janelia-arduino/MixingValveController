@@ -34,12 +34,10 @@ struct MixInfo
   Array<size_t,VALVE_COUNT_MAX> ratio;
   EventId event_id;
   size_t valve;
-  size_t inc;
-  bool enabled;
 };
 
 extern ConstantString mixing_volume_fill_duration_string;
-extern ConstantString valve_on_duration_min_string;
+extern ConstantString valve_open_duration_min_string;
 
 extern const long seconds_per_minute;
 extern const long milliseconds_per_second;
@@ -84,9 +82,10 @@ extern const long ratio_max;
 
 // Functions
 extern ConstantString get_timing_function_name;
-extern ConstantString mix_function_name;
+extern ConstantString start_mixing_function_name;
 
 // Callbacks
+extern ConstantString stop_mixing_callback_name;
 
 // Errors
 }
