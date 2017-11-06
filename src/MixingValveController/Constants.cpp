@@ -25,7 +25,7 @@ const modular_server::FirmwareInfo firmware_info =
   };
 
 CONSTANT_STRING(mixing_volume_fill_duration_string,"mixing_volume_fill_duration");
-CONSTANT_STRING(valve_open_duration_min_string,"valve_open_duration_min");
+CONSTANT_STRING(valve_open_unit_duration_string,"valve_open_unit_duration");
 
 const long seconds_per_minute = 60;
 const long milliseconds_per_second = 1000;
@@ -53,14 +53,24 @@ const long flow_rate_max = 80;
 const long flow_rate_default = 42;
 
 CONSTANT_STRING(mix_resolution_property_name,"mixResolution");
-const long mix_resolution_min = 10;
-const long mix_resolution_max = 1000;
+const long mix_resolution_min = VALVE_COUNT_MAX*2;
+const long mix_resolution_max = 10000;
 const long mix_resolution_default = 100;
+
+CONSTANT_STRING(mix_duration_property_name,"mixDuration");
+const long mix_duration_min = 1;
+const long mix_duration_max = 100000;
+const long mix_duration_default = 6000;
 
 CONSTANT_STRING(valve_switch_duration_property_name,"valveSwitchDuration");
 const long valve_switch_duration_min = 10;
 const long valve_switch_duration_max = 100;
 const long valve_switch_duration_default = 30;
+
+CONSTANT_STRING(valve_open_unit_duration_min_property_name,"valveOpenUnitDurationMin");
+const long valve_open_unit_duration_min_min = 1;
+const long valve_open_unit_duration_min_max = 1000;
+const long valve_open_unit_duration_min_default = 50;
 
 // Parameters
 CONSTANT_STRING(ratio_parameter_name,"ratio");

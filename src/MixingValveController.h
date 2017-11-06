@@ -47,9 +47,9 @@ public:
   void stopMixing();
 
 protected:
-  // Timing
+  // Mix Timing
   long mixing_volume_fill_duration_;
-  long valve_open_duration_min_;
+  long valve_open_unit_duration_;
 
 private:
   modular_server::Property properties_[mixing_valve_controller::constants::PROPERTY_COUNT_MAX];

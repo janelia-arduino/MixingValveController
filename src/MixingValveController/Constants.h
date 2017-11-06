@@ -16,7 +16,7 @@ namespace mixing_valve_controller
 namespace constants
 {
 //MAX values must be >= 1, >= created/copied count, < RAM limit
-enum{PROPERTY_COUNT_MAX=5};
+enum{PROPERTY_COUNT_MAX=7};
 enum{PARAMETER_COUNT_MAX=1};
 enum{FUNCTION_COUNT_MAX=2};
 enum{CALLBACK_COUNT_MAX=1};
@@ -37,7 +37,7 @@ struct MixInfo
 };
 
 extern ConstantString mixing_volume_fill_duration_string;
-extern ConstantString valve_open_duration_min_string;
+extern ConstantString valve_open_unit_duration_string;
 
 extern const long seconds_per_minute;
 extern const long milliseconds_per_second;
@@ -70,10 +70,20 @@ extern const long mix_resolution_min;
 extern const long mix_resolution_max;
 extern const long mix_resolution_default;
 
+extern ConstantString mix_duration_property_name;
+extern const long mix_duration_min;
+extern const long mix_duration_max;
+extern const long mix_duration_default;
+
 extern ConstantString valve_switch_duration_property_name;
 extern const long valve_switch_duration_min;
 extern const long valve_switch_duration_max;
 extern const long valve_switch_duration_default;
+
+extern ConstantString valve_open_unit_duration_min_property_name;
+extern const long valve_open_unit_duration_min_min;
+extern const long valve_open_unit_duration_min_max;
+extern const long valve_open_unit_duration_min_default;
 
 // Parameters
 extern ConstantString ratio_parameter_name;
