@@ -44,7 +44,9 @@ License:
       "mixingVolume",
       "flowRate",
       "mixResolution",
-      "valveSwitchDuration"
+      "mixDuration",
+      "valveSwitchDuration",
+      "valveOpenUnitDurationMin"
     ],
     "callbacks":[
       "stopMixing"

@@ -25,6 +25,7 @@ const modular_server::FirmwareInfo firmware_info =
   };
 
 CONSTANT_STRING(mixing_volume_fill_duration_string,"mixing_volume_fill_duration");
+CONSTANT_STRING(mixing_duration_limit_string,"mixing_duration_limit");
 CONSTANT_STRING(valve_open_unit_duration_string,"valve_open_unit_duration");
 
 const long seconds_per_minute = 60;
@@ -35,6 +36,7 @@ const long milliseconds_per_second = 1000;
 // Units
 CONSTANT_STRING(ml_units,"ml");
 CONSTANT_STRING(ml_per_min_units,"ml/min");
+CONSTANT_STRING(percent_units,"%");
 
 // Properties
 CONSTANT_STRING(valve_count_property_name,"valveCount");
@@ -46,6 +48,11 @@ CONSTANT_STRING(mixing_volume_property_name,"mixingVolume");
 const long mixing_volume_min = 2;
 const long mixing_volume_max = 8;
 const long mixing_volume_default = 6;
+
+CONSTANT_STRING(mixing_volume_limit_property_name,"mixingVolumeLimit");
+const long mixing_volume_limit_min = 1;
+const long mixing_volume_limit_max = 100;
+const long mixing_volume_limit_default = 80;
 
 CONSTANT_STRING(flow_rate_property_name,"flowRate");
 const long flow_rate_min = 20;
@@ -59,7 +66,7 @@ const long mix_resolution_default = 100;
 
 CONSTANT_STRING(mix_duration_property_name,"mixDuration");
 const long mix_duration_min = 1;
-const long mix_duration_max = 100000;
+const long mix_duration_max = 3600000;
 const long mix_duration_default = 6000;
 
 CONSTANT_STRING(valve_switch_duration_property_name,"valveSwitchDuration");
@@ -70,12 +77,12 @@ const long valve_switch_duration_default = 30;
 CONSTANT_STRING(valve_open_unit_duration_min_property_name,"valveOpenUnitDurationMin");
 const long valve_open_unit_duration_min_min = 1;
 const long valve_open_unit_duration_min_max = 1000;
-const long valve_open_unit_duration_min_default = 50;
+const long valve_open_unit_duration_min_default = 30;
 
 // Parameters
 CONSTANT_STRING(ratio_parameter_name,"ratio");
 const long ratio_min = 0;
-const long ratio_max = 1000;
+const long ratio_max = mix_resolution_max;
 
 // Functions
 CONSTANT_STRING(get_mix_timing_function_name,"getMixTiming");

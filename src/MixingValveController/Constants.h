@@ -16,13 +16,17 @@ namespace mixing_valve_controller
 namespace constants
 {
 //MAX values must be >= 1, >= created/copied count, < RAM limit
-enum{PROPERTY_COUNT_MAX=7};
+enum{PROPERTY_COUNT_MAX=8};
 enum{PARAMETER_COUNT_MAX=1};
 enum{FUNCTION_COUNT_MAX=2};
 enum{CALLBACK_COUNT_MAX=1};
 
 enum{VALVE_COUNT_MAX=power_switch_controller::constants::CHANNEL_COUNT};
 enum{MIX_COUNT_MAX=1};
+
+enum{MIX_ARG_STARTED=-1};
+enum{MIX_ARG_NORMAL=0};
+enum{MIX_ARG_FINISHED=1};
 
 extern ConstantString device_name;
 
@@ -37,6 +41,7 @@ struct MixInfo
 };
 
 extern ConstantString mixing_volume_fill_duration_string;
+extern ConstantString mixing_duration_limit_string;
 extern ConstantString valve_open_unit_duration_string;
 
 extern const long seconds_per_minute;
@@ -47,6 +52,7 @@ extern const long milliseconds_per_second;
 // Units
 extern ConstantString ml_units;
 extern ConstantString ml_per_min_units;
+extern ConstantString percent_units;
 
 // Properties
 // Property values must be long, double, bool, long[], double[], bool[], char[], ConstantString *, (ConstantString *)[]
@@ -59,6 +65,11 @@ extern ConstantString mixing_volume_property_name;
 extern const long mixing_volume_min;
 extern const long mixing_volume_max;
 extern const long mixing_volume_default;
+
+extern ConstantString mixing_volume_limit_property_name;
+extern const long mixing_volume_limit_min;
+extern const long mixing_volume_limit_max;
+extern const long mixing_volume_limit_default;
 
 extern ConstantString flow_rate_property_name;
 extern const long flow_rate_min;

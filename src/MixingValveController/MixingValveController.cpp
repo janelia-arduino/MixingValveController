@@ -45,6 +45,11 @@ void MixingValveController::setup()
   mixing_volume_property.setUnits(constants::ml_units);
   mixing_volume_property.attachPostSetValueFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::updateMixTimingHandler));
 
+  modular_server::Property & mixing_volume_limit_property = modular_server_.createProperty(constants::mixing_volume_limit_property_name,constants::mixing_volume_limit_default);
+  mixing_volume_limit_property.setRange(constants::mixing_volume_limit_min,constants::mixing_volume_limit_max);
+  mixing_volume_limit_property.setUnits(constants::percent_units);
+  mixing_volume_limit_property.attachPostSetValueFunctor(makeFunctor((Functor0 *)0,*this,&MixingValveController::updateMixTimingHandler));
+
   modular_server::Property & flow_rate_property = modular_server_.createProperty(constants::flow_rate_property_name,constants::flow_rate_default);
   flow_rate_property.setRange(constants::flow_rate_min,constants::flow_rate_max);
   flow_rate_property.setUnits(constants::ml_per_min_units);
@@ -93,10 +98,10 @@ void MixingValveController::setup()
 MixingValveController::Ratio MixingValveController::startMixing(MixingValveController::Ratio ratio)
 {
   stopMixing();
-  Ratio mix_ratio = constrainRatio(ratio);
+  Ratio mix_ratio = normalizeRatio(ratio);
   mix_info_.ratio = mix_ratio;
   mix_info_.valve = 0;
-  mixHandler(-1);
+  mixHandler(constants::MIX_ARG_STARTED);
   return mix_ratio;
 }
 
@@ -106,18 +111,33 @@ void MixingValveController::stopMixing()
   setAllChannelsOff();
 }
 
-MixingValveController::Ratio MixingValveController::constrainRatio(MixingValveController::Ratio ratio)
+long MixingValveController::getMixingVolumeFillDuration()
 {
-  Ratio constrained_ratio(ratio);
+  return mixing_volume_fill_duration_;
+}
 
-  size_t ratio_sum = ratioSum(constrained_ratio);
+long MixingValveController::getValveOpenUnitDuration()
+{
+  return valve_open_unit_duration_;
+}
+
+bool MixingValveController::finishMix()
+{
+  bool continue_mixing = true;
+  return continue_mixing;
+}
+
+MixingValveController::Ratio MixingValveController::normalizeRatio(MixingValveController::Ratio ratio)
+{
+  Ratio normalized_ratio(ratio);
 
   long mix_resolution;
   modular_server_.property(constants::mix_resolution_property_name).getValue(mix_resolution);
 
-  if (ratio_sum <= (size_t)mix_resolution)
+  size_t ratio_sum = ratioSum(normalized_ratio);
+  if (ratio_sum == (size_t)mix_resolution)
   {
-    return constrained_ratio;
+    return normalized_ratio;
   }
   else
   {
@@ -126,17 +146,28 @@ MixingValveController::Ratio MixingValveController::constrainRatio(MixingValveCo
 
     for (size_t valve=0; valve<(size_t)valve_count; ++valve)
     {
-      if (constrained_ratio[valve] > 0)
+      if (normalized_ratio[valve] > 0)
       {
-        constrained_ratio[valve] = (constrained_ratio[valve]*mix_resolution)/ratio_sum;
-        if (constrained_ratio[valve] < 1)
+        normalized_ratio[valve] = (normalized_ratio[valve]*mix_resolution)/ratio_sum;
+        if (normalized_ratio[valve] < 1)
         {
-          constrained_ratio[valve] = 1;
+          normalized_ratio[valve] = 1;
         }
       }
     }
   }
-  return constrainRatio(constrained_ratio);
+
+  ratio_sum = ratioSum(normalized_ratio);
+  if (ratio_sum == (size_t)mix_resolution)
+  {
+    return normalized_ratio;
+  }
+  else
+  {
+    size_t ratio_max_index = ratioMaxIndex(normalized_ratio);
+    normalized_ratio[ratio_max_index] = mix_resolution - (ratio_sum - normalized_ratio[ratio_max_index]);
+  }
+  return normalized_ratio;
 }
 
 size_t MixingValveController::ratioSum(MixingValveController::Ratio ratio)
@@ -150,6 +181,42 @@ size_t MixingValveController::ratioSum(MixingValveController::Ratio ratio)
     ratio_sum += ratio[valve];
   }
   return ratio_sum;
+}
+
+size_t MixingValveController::ratioMaxIndex(MixingValveController::Ratio ratio)
+{
+  long valve_count;
+  modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
+
+  size_t ratio_max = 0;
+  size_t ratio_max_index = 0;
+  for (size_t valve=0; valve<(size_t)valve_count; ++valve)
+  {
+    if (ratio[valve] > ratio_max)
+    {
+      ratio_max = ratio[valve];
+      ratio_max_index = valve;
+    }
+  }
+  return ratio_max_index;
+}
+
+long MixingValveController::constrainMixDuration(const long mix_duration,
+                                                 const long mix_duration_min,
+                                                 const long mix_duration_max)
+{
+  long constrained_mix_duration = mix_duration;
+
+  size_t inc = 1;
+  while(constrained_mix_duration > mix_duration_max)
+  {
+    constrained_mix_duration = mix_duration/++inc;
+  }
+  if (constrained_mix_duration < mix_duration_min)
+  {
+    constrained_mix_duration = mix_duration_min;
+  }
+  return constrained_mix_duration;
 }
 
 // Handlers must be non-blocking (avoid 'delay')
@@ -185,10 +252,14 @@ void MixingValveController::updateMixTimingHandler()
   long mixing_volume;
   modular_server_.property(constants::mixing_volume_property_name).getValue(mixing_volume);
 
+  long mixing_volume_limit;
+  modular_server_.property(constants::mixing_volume_limit_property_name).getValue(mixing_volume_limit);
+
   long flow_rate;
   modular_server_.property(constants::flow_rate_property_name).getValue(flow_rate);
 
   mixing_volume_fill_duration_ = (mixing_volume*constants::seconds_per_minute*constants::milliseconds_per_second)/flow_rate;
+  mixing_duration_limit_ = (mixing_volume_fill_duration_*mixing_volume_limit)/constants::mixing_volume_limit_max;
 
   long valve_count;
   modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
@@ -203,7 +274,7 @@ void MixingValveController::updateMixTimingHandler()
   mix_resolution_property.disableFunctors();
   mix_resolution_property.setDefaultValue(constants::mix_resolution_default);
   long mix_resolution_min = valve_count*2;
-  long mix_resolution_max = (mixing_volume_fill_duration_ - valve_count*valve_switch_duration)/valve_open_unit_duration_min;
+  long mix_resolution_max = (mixing_duration_limit_ - valve_count*valve_switch_duration)/valve_open_unit_duration_min;
   mix_resolution_property.setRange(mix_resolution_min,mix_resolution_max);
   mix_resolution_property.reenableFunctors();
   long mix_resolution;
@@ -216,14 +287,19 @@ void MixingValveController::updateMixTimingHandler()
   mix_duration_property.disableFunctors();
   mix_duration_property.setDefaultValue(constants::mix_duration_default);
   long mix_duration_min = valve_open_unit_duration_min*mix_resolution + valve_count*valve_switch_duration;
-  long mix_duration_max = mixing_volume_fill_duration_ + valve_count*valve_switch_duration;
-  mix_duration_property.setRange(mix_duration_min,mix_duration_max);
-  mix_duration_property.reenableFunctors();
+  long mix_duration_max = mixing_duration_limit_ + valve_count*valve_switch_duration;
   long mix_duration;
   mix_duration_property.getValue(mix_duration);
 
-  valve_open_unit_duration_ = (mix_duration - valve_count*(valve_switch_duration))/mix_resolution;
-  // mix_duration_ = valve_open_unit_duration*mix_resolution + valve_count*valve_switch_duration;
+  long constrained_mix_duration = constrainMixDuration(mix_duration,
+                                                       mix_duration_min,
+                                                       mix_duration_max);
+
+  valve_open_unit_duration_ = (constrained_mix_duration - valve_count*valve_switch_duration)/mix_resolution;
+
+  mix_duration = valve_open_unit_duration_*mix_resolution + valve_count*valve_switch_duration;
+  mix_duration_property.setValue(mix_duration);
+  mix_duration_property.reenableFunctors();
 }
 
 void MixingValveController::getMixTimingHandler()
@@ -233,6 +309,7 @@ void MixingValveController::getMixTimingHandler()
   modular_server_.response().beginObject();
 
   modular_server_.response().write(constants::mixing_volume_fill_duration_string,mixing_volume_fill_duration_);
+  modular_server_.response().write(constants::mixing_duration_limit_string,mixing_duration_limit_);
   modular_server_.response().write(constants::valve_open_unit_duration_string,valve_open_unit_duration_);
 
   modular_server_.response().endObject();
@@ -262,9 +339,16 @@ void MixingValveController::stopMixingHandler(modular_server::Interrupt * interr
   stopMixing();
 }
 
-void MixingValveController::mixHandler(int index)
+void MixingValveController::mixHandler(int arg)
 {
-  if (event_controller_.eventsAvailable())
+  bool continue_mixing = true;
+
+  if (arg == constants::MIX_ARG_FINISHED)
+  {
+    continue_mixing = finishMix();
+  }
+
+  if (continue_mixing && event_controller_.eventsAvailable())
   {
     setChannelOnAllOthersOff(mix_info_.valve);
 
@@ -273,13 +357,21 @@ void MixingValveController::mixHandler(int index)
 
     long valve_on_duration = (mix_info_.ratio[mix_info_.valve]*valve_open_unit_duration_) + valve_switch_duration;
 
-    mix_info_.event_id = event_controller_.addEventUsingDelay(makeFunctor((Functor1<int> *)0,*this,&MixingValveController::mixHandler),
-                                                              valve_on_duration);
-
     long valve_count;
     modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
 
     mix_info_.valve = (mix_info_.valve + 1) % valve_count;
+
+    int mix_arg = constants::MIX_ARG_NORMAL;
+
+    if (mix_info_.valve == 0)
+    {
+      mix_arg = constants::MIX_ARG_FINISHED;
+    }
+
+    mix_info_.event_id = event_controller_.addEventUsingDelay(makeFunctor((Functor1<int> *)0,*this,&MixingValveController::mixHandler),
+                                                              valve_on_duration,
+                                                              mix_arg);
 
     event_controller_.enable(mix_info_.event_id);
   }

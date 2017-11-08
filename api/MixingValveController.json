@@ -186,7 +186,85 @@
         ]
       },
       {
+        "name":"mixDuration",
+        "type":"long",
+        "functions":[
+          {
+            "name":"getValue",
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"setValue",
+            "parameters":[
+              "value"
+            ],
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"getDefaultValue",
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"setValueToDefault",
+            "result_info":{
+              "type":"long"
+            }
+          }
+        ],
+        "parameters":[
+          {
+            "name":"value",
+            "type":"long"
+          }
+        ]
+      },
+      {
         "name":"valveSwitchDuration",
+        "type":"long",
+        "functions":[
+          {
+            "name":"getValue",
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"setValue",
+            "parameters":[
+              "value"
+            ],
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"getDefaultValue",
+            "result_info":{
+              "type":"long"
+            }
+          },
+          {
+            "name":"setValueToDefault",
+            "result_info":{
+              "type":"long"
+            }
+          }
+        ],
+        "parameters":[
+          {
+            "name":"value",
+            "type":"long"
+          }
+        ]
+      },
+      {
+        "name":"valveOpenUnitDurationMin",
         "type":"long",
         "functions":[
           {
