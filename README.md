@@ -28,18 +28,20 @@ License:
 
 ```json
 {
-  "id":"getApi",
-  "result":{
-    "firmware":["MixingValveController"],
-    "verbosity":"NAMES",
-    "functions":[
+  "id": "getApi",
+  "result": {
+    "firmware": [
+      "MixingValveController"
+    ],
+    "verbosity": "NAMES",
+    "functions": [
       "getMixTiming",
       "startMixing"
     ],
-    "parameters":[
+    "parameters": [
       "ratio"
     ],
-    "properties":[
+    "properties": [
       "valveCount",
       "mixingVolume",
       "flowRate",
@@ -48,7 +50,7 @@ License:
       "valveSwitchDuration",
       "valveOpenUnitDurationMin"
     ],
-    "callbacks":[
+    "callbacks": [
       "stopMixing"
     ]
   }
