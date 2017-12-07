@@ -19,6 +19,9 @@ void MixingValveController::setup()
   // Parent Setup
   PowerSwitchController::setup();
 
+  // Reset Watchdog
+  resetWatchdog();
+
   // Pin Setup
 
   // Set Device ID
@@ -299,6 +302,7 @@ void MixingValveController::updateMixTimingHandler()
 
   mix_duration = valve_open_unit_duration_*mix_resolution + valve_count*valve_switch_duration;
   mix_duration_property.setValue(mix_duration);
+
   mix_duration_property.reenableFunctors();
 }
 
