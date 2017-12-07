@@ -303,6 +303,7 @@ void MixingValveController::updateMixTimingHandler()
   mix_duration = valve_open_unit_duration_*mix_resolution + valve_count*valve_switch_duration;
   mix_duration_property.setValue(mix_duration);
 
+  mix_duration_property.setRange(mix_duration_min,mix_duration_max);
   mix_duration_property.reenableFunctors();
 }
 
