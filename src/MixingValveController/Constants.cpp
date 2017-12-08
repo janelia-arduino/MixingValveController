@@ -20,8 +20,8 @@ const modular_server::FirmwareInfo firmware_info =
   {
     .name_ptr=&firmware_name,
     .version_major=1,
-    .version_minor=0,
-    .version_patch=3,
+    .version_minor=1,
+    .version_patch=0,
   };
 
 CONSTANT_STRING(mixing_volume_fill_duration_string,"mixing_volume_fill_duration");
@@ -57,7 +57,7 @@ const long mixing_volume_limit_default = 80;
 CONSTANT_STRING(flow_rate_property_name,"flowRate");
 const long flow_rate_min = 20;
 const long flow_rate_max = 80;
-const long flow_rate_default = 42;
+const long flow_rate_default = 40;
 
 CONSTANT_STRING(mix_resolution_property_name,"mixResolution");
 const long mix_resolution_min = VALVE_COUNT_MAX*2;
@@ -84,9 +84,14 @@ CONSTANT_STRING(ratio_parameter_name,"ratio");
 const long ratio_min = 0;
 const long ratio_max = mix_resolution_max;
 
+CONSTANT_STRING(duration_parameter_name,"duration");
+const long duration_min = 1;
+const long duration_max = 2147483647;
+
 // Functions
-CONSTANT_STRING(get_mix_timing_function_name,"getMixTiming");
+CONSTANT_STRING(get_mix_info_function_name,"getMixInfo");
 CONSTANT_STRING(start_mixing_function_name,"startMixing");
+CONSTANT_STRING(set_mix_duration_to_factor_of_duration_function_name,"setMixDurationToFactorOfDuration");
 
 // Callbacks
 CONSTANT_STRING(stop_mixing_callback_name,"stopMixing");

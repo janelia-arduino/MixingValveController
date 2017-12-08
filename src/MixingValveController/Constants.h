@@ -17,8 +17,8 @@ namespace constants
 {
 //MAX values must be >= 1, >= created/copied count, < RAM limit
 enum{PROPERTY_COUNT_MAX=8};
-enum{PARAMETER_COUNT_MAX=1};
-enum{FUNCTION_COUNT_MAX=2};
+enum{PARAMETER_COUNT_MAX=2};
+enum{FUNCTION_COUNT_MAX=3};
 enum{CALLBACK_COUNT_MAX=1};
 
 enum{VALVE_COUNT_MAX=power_switch_controller::constants::CHANNEL_COUNT};
@@ -101,9 +101,14 @@ extern ConstantString ratio_parameter_name;
 extern const long ratio_min;
 extern const long ratio_max;
 
+extern ConstantString duration_parameter_name;
+extern const long duration_min;
+extern const long duration_max;
+
 // Functions
-extern ConstantString get_mix_timing_function_name;
+extern ConstantString get_mix_info_function_name;
 extern ConstantString start_mixing_function_name;
+extern ConstantString set_mix_duration_to_factor_of_duration_function_name;
 
 // Callbacks
 extern ConstantString stop_mixing_callback_name;

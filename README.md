@@ -35,15 +35,18 @@ License:
     ],
     "verbosity": "NAMES",
     "functions": [
-      "getMixTiming",
-      "startMixing"
+      "getMixInfo",
+      "startMixing",
+      "setMixDurationToFactorOfDuration"
     ],
     "parameters": [
-      "ratio"
+      "ratio",
+      "duration"
     ],
     "properties": [
       "valveCount",
       "mixingVolume",
+      "mixingVolumeLimit",
       "flowRate",
       "mixResolution",
       "mixDuration",

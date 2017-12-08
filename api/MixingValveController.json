@@ -7,7 +7,7 @@
     "verbosity": "GENERAL",
     "functions": [
       {
-        "name": "getMixTiming",
+        "name": "getMixInfo",
         "result_info": {
           "type": "object"
         }
@@ -21,6 +21,15 @@
           "type": "array",
           "array_element_type": "long"
         }
+      },
+      {
+        "name": "setMixDurationToFactorOfDuration",
+        "parameters": [
+          "duration"
+        ],
+        "result_info": {
+          "type": "long"
+        }
       }
     ],
     "parameters": [
@@ -28,6 +37,10 @@
         "name": "ratio",
         "type": "array",
         "array_element_type": "long"
+      },
+      {
+        "name": "duration",
+        "type": "long"
       }
     ],
     "properties": [
@@ -72,6 +85,45 @@
       },
       {
         "name": "mixingVolume",
+        "type": "long",
+        "functions": [
+          {
+            "name": "getValue",
+            "result_info": {
+              "type": "long"
+            }
+          },
+          {
+            "name": "setValue",
+            "parameters": [
+              "value"
+            ],
+            "result_info": {
+              "type": "long"
+            }
+          },
+          {
+            "name": "getDefaultValue",
+            "result_info": {
+              "type": "long"
+            }
+          },
+          {
+            "name": "setValueToDefault",
+            "result_info": {
+              "type": "long"
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "name": "value",
+            "type": "long"
+          }
+        ]
+      },
+      {
+        "name": "mixingVolumeLimit",
         "type": "long",
         "functions": [
           {
