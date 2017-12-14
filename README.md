@@ -37,7 +37,7 @@ License:
     "functions": [
       "getMixInfo",
       "startMixing",
-      "setMixDurationToFactorOfDuration"
+      "setMixDurationFactored"
     ],
     "parameters": [
       "ratio",
@@ -45,13 +45,13 @@ License:
     ],
     "properties": [
       "valveCount",
-      "mixingVolume",
-      "mixingVolumeLimit",
+      "mixVolume",
+      "mixVolumeLimit",
       "flowRate",
       "mixResolution",
       "mixDuration",
       "valveSwitchDuration",
-      "valveOpenUnitDurationMin"
+      "valveOpenDurationLimit"
     ],
     "callbacks": [
       "stopMixing"

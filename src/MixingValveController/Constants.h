@@ -35,14 +35,17 @@ extern const modular_server::FirmwareInfo firmware_info;
 
 struct MixInfo
 {
-  Array<size_t,VALVE_COUNT_MAX> ratio;
+  Array<long,VALVE_COUNT_MAX> ratio;
+  Array<long,VALVE_COUNT_MAX> valve_open_durations;
   EventId event_id;
   size_t valve;
 };
 
-extern ConstantString mixing_volume_fill_duration_string;
-extern ConstantString mixing_duration_limit_string;
-extern ConstantString valve_open_unit_duration_string;
+extern const long ratio_value_default;
+
+extern ConstantString mix_volume_fill_duration_string;
+extern ConstantString mix_ratio_string;
+extern ConstantString valve_open_durations_string;
 
 extern const long seconds_per_minute;
 extern const long milliseconds_per_second;
@@ -61,15 +64,15 @@ extern const long valve_count_min;
 extern const long valve_count_max;
 extern const long valve_count_default;
 
-extern ConstantString mixing_volume_property_name;
-extern const long mixing_volume_min;
-extern const long mixing_volume_max;
-extern const long mixing_volume_default;
+extern ConstantString mix_volume_property_name;
+extern const long mix_volume_min;
+extern const long mix_volume_max;
+extern const long mix_volume_default;
 
-extern ConstantString mixing_volume_limit_property_name;
-extern const long mixing_volume_limit_min;
-extern const long mixing_volume_limit_max;
-extern const long mixing_volume_limit_default;
+extern ConstantString mix_volume_limit_property_name;
+extern const long mix_volume_limit_min;
+extern const long mix_volume_limit_max;
+extern const long mix_volume_limit_default;
 
 extern ConstantString flow_rate_property_name;
 extern const long flow_rate_min;
@@ -91,10 +94,10 @@ extern const long valve_switch_duration_min;
 extern const long valve_switch_duration_max;
 extern const long valve_switch_duration_default;
 
-extern ConstantString valve_open_unit_duration_min_property_name;
-extern const long valve_open_unit_duration_min_min;
-extern const long valve_open_unit_duration_min_max;
-extern const long valve_open_unit_duration_min_default;
+extern ConstantString valve_open_duration_limit_property_name;
+extern const long valve_open_duration_limit_min;
+extern const long valve_open_duration_limit_max;
+extern const long valve_open_duration_limit_default;
 
 // Parameters
 extern ConstantString ratio_parameter_name;
@@ -108,7 +111,7 @@ extern const long duration_max;
 // Functions
 extern ConstantString get_mix_info_function_name;
 extern ConstantString start_mixing_function_name;
-extern ConstantString set_mix_duration_to_factor_of_duration_function_name;
+extern ConstantString set_mix_duration_factored_function_name;
 
 // Callbacks
 extern ConstantString stop_mixing_callback_name;

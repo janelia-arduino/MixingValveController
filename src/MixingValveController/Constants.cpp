@@ -19,14 +19,16 @@ CONSTANT_STRING(firmware_name,"MixingValveController");
 const modular_server::FirmwareInfo firmware_info =
   {
     .name_ptr=&firmware_name,
-    .version_major=1,
-    .version_minor=1,
+    .version_major=2,
+    .version_minor=0,
     .version_patch=0,
   };
 
-CONSTANT_STRING(mixing_volume_fill_duration_string,"mixing_volume_fill_duration");
-CONSTANT_STRING(mixing_duration_limit_string,"mixing_duration_limit");
-CONSTANT_STRING(valve_open_unit_duration_string,"valve_open_unit_duration");
+const long ratio_value_default = 1;
+
+CONSTANT_STRING(mix_volume_fill_duration_string,"mix_volume_fill_duration");
+CONSTANT_STRING(mix_ratio_string,"mix_ratio");
+CONSTANT_STRING(valve_open_durations_string,"valve_open_durations");
 
 const long seconds_per_minute = 60;
 const long milliseconds_per_second = 1000;
@@ -44,15 +46,15 @@ const long valve_count_min = 2;
 const long valve_count_max = VALVE_COUNT_MAX;
 const long valve_count_default = 2;
 
-CONSTANT_STRING(mixing_volume_property_name,"mixingVolume");
-const long mixing_volume_min = 2;
-const long mixing_volume_max = 8;
-const long mixing_volume_default = 6;
+CONSTANT_STRING(mix_volume_property_name,"mixVolume");
+const long mix_volume_min = 2;
+const long mix_volume_max = 8;
+const long mix_volume_default = 6;
 
-CONSTANT_STRING(mixing_volume_limit_property_name,"mixingVolumeLimit");
-const long mixing_volume_limit_min = 1;
-const long mixing_volume_limit_max = 100;
-const long mixing_volume_limit_default = 80;
+CONSTANT_STRING(mix_volume_limit_property_name,"mixVolumeLimit");
+const long mix_volume_limit_min = 1;
+const long mix_volume_limit_max = 100;
+const long mix_volume_limit_default = 80;
 
 CONSTANT_STRING(flow_rate_property_name,"flowRate");
 const long flow_rate_min = 20;
@@ -74,10 +76,10 @@ const long valve_switch_duration_min = 10;
 const long valve_switch_duration_max = 100;
 const long valve_switch_duration_default = 30;
 
-CONSTANT_STRING(valve_open_unit_duration_min_property_name,"valveOpenUnitDurationMin");
-const long valve_open_unit_duration_min_min = 1;
-const long valve_open_unit_duration_min_max = 1000;
-const long valve_open_unit_duration_min_default = 30;
+CONSTANT_STRING(valve_open_duration_limit_property_name,"valveOpenDurationLimit");
+const long valve_open_duration_limit_min = 10;
+const long valve_open_duration_limit_max = 100;
+const long valve_open_duration_limit_default = 20;
 
 // Parameters
 CONSTANT_STRING(ratio_parameter_name,"ratio");
@@ -91,7 +93,7 @@ const long duration_max = 2147483647;
 // Functions
 CONSTANT_STRING(get_mix_info_function_name,"getMixInfo");
 CONSTANT_STRING(start_mixing_function_name,"startMixing");
-CONSTANT_STRING(set_mix_duration_to_factor_of_duration_function_name,"setMixDurationToFactorOfDuration");
+CONSTANT_STRING(set_mix_duration_factored_function_name,"setMixDurationFactored");
 
 // Callbacks
 CONSTANT_STRING(stop_mixing_callback_name,"stopMixing");

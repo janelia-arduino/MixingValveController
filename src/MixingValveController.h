@@ -42,15 +42,14 @@ public:
   MixingValveController();
   virtual void setup();
 
-  typedef Array<size_t,mixing_valve_controller::constants::VALVE_COUNT_MAX> Ratio;
+  typedef Array<long,mixing_valve_controller::constants::VALVE_COUNT_MAX> ValveValues;
 
-  Ratio startMixing(Ratio ratio);
+  ValveValues startMixing(ValveValues ratio);
   void stopMixing();
 
-  long getMixingVolumeFillDuration();
-  long getValveOpenUnitDuration();
+  long getMixVolumeFillDuration();
 
-  long setMixDurationToFactorOfDuration(const long duration);
+  long setMixDurationFactored(const long duration);
 
 protected:
   virtual bool finishMix();
@@ -64,24 +63,24 @@ private:
   mixing_valve_controller::constants::MixInfo mix_info_;
 
   // Mix Timing
-  long mixing_volume_fill_duration_;
-  long valve_open_unit_duration_;
+  long mix_volume_fill_duration_;
   long mix_duration_min_;
   long mix_duration_max_;
 
-  Ratio normalizeRatio(Ratio ratio);
-  size_t ratioSum(Ratio ratio);
-  size_t ratioMaxIndex(Ratio ratio);
+  ValveValues normalizeRatio(ValveValues ratio);
+  long valveValuesSum(ValveValues valve_values);
+  size_t valveValuesMaxIndex(ValveValues valve_values);
   long constrainMixDuration(const long mix_duration,
                             const long mix_duration_min,
                             const long mix_duration_max);
+  void setMixInfo(ValveValues ratio);
 
   // Handlers
   void setValveCountHandler();
   void updateMixPropertiesHandler();
   void getMixInfoHandler();
   void startMixingHandler();
-  void setMixDurationToFactorOfDurationHandler();
+  void setMixDurationFactoredHandler();
   void stopMixingHandler(modular_server::Interrupt * interrupt_ptr);
   void mixHandler(int arg);
 

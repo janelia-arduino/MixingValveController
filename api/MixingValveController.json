@@ -23,7 +23,7 @@
         }
       },
       {
-        "name": "setMixDurationToFactorOfDuration",
+        "name": "setMixDurationFactored",
         "parameters": [
           "duration"
         ],
@@ -84,7 +84,7 @@
         ]
       },
       {
-        "name": "mixingVolume",
+        "name": "mixVolume",
         "type": "long",
         "functions": [
           {
@@ -123,7 +123,7 @@
         ]
       },
       {
-        "name": "mixingVolumeLimit",
+        "name": "mixVolumeLimit",
         "type": "long",
         "functions": [
           {
@@ -318,7 +318,7 @@
         ]
       },
       {
-        "name": "valveOpenUnitDurationMin",
+        "name": "valveOpenDurationLimit",
         "type": "long",
         "functions": [
           {
