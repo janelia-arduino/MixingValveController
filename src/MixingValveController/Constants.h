@@ -50,7 +50,7 @@ extern ConstantString valve_open_durations_string;
 extern const long seconds_per_minute;
 extern const long milliseconds_per_second;
 
-// Interrupts
+// Pins
 
 // Units
 extern ConstantString ml_units;

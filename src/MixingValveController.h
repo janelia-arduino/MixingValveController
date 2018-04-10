@@ -68,7 +68,7 @@ private:
   void getMixInfoHandler();
   void startMixingHandler();
   void setMixDurationFactoredHandler();
-  void stopMixingHandler(modular_server::Interrupt * interrupt_ptr);
+  void stopMixingHandler(modular_server::Pin * pin_ptr);
   void mixHandler(int arg);
 
 };

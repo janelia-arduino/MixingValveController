@@ -17,12 +17,12 @@ CONSTANT_STRING(device_name,"mixing_valve_controller");
 CONSTANT_STRING(firmware_name,"MixingValveController");
 // Use semantic versioning http://semver.org/
 const modular_server::FirmwareInfo firmware_info =
-  {
-    .name_ptr=&firmware_name,
-    .version_major=2,
-    .version_minor=0,
-    .version_patch=0,
-  };
+{
+  .name_ptr=&firmware_name,
+  .version_major=2,
+  .version_minor=0,
+  .version_patch=0,
+};
 
 const long ratio_value_default = 1;
 
@@ -33,7 +33,7 @@ CONSTANT_STRING(valve_open_durations_string,"valve_open_durations");
 const long seconds_per_minute = 60;
 const long milliseconds_per_second = 1000;
 
-// Interrupts
+// Pins
 
 // Units
 CONSTANT_STRING(ml_units,"ml");

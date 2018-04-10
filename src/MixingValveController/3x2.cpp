@@ -15,7 +15,7 @@ namespace mixing_valve_controller
 namespace constants
 {
 
-// Interrupts
+// Pins
 
 // Units
 

@@ -29,7 +29,7 @@ void MixingValveController::setup()
 
   // Add Hardware
 
-  // Interrupts
+  // Pins
 
   // Add Firmware
   modular_server_.addFirmware(constants::firmware_info,
@@ -103,7 +103,7 @@ void MixingValveController::setup()
 
   // Callbacks
   modular_server::Callback & stop_mixing_callback = modular_server_.createCallback(constants::stop_mixing_callback_name);
-  stop_mixing_callback.attachFunctor(makeFunctor((Functor1<modular_server::Interrupt *> *)0,*this,&MixingValveController::stopMixingHandler));
+  stop_mixing_callback.attachFunctor(makeFunctor((Functor1<modular_server::Pin *> *)0,*this,&MixingValveController::stopMixingHandler));
 
 }
 
@@ -383,7 +383,7 @@ void MixingValveController::setMixDurationFactoredHandler()
   modular_server_.response().returnResult(mix_duration);
 }
 
-void MixingValveController::stopMixingHandler(modular_server::Interrupt * interrupt_ptr)
+void MixingValveController::stopMixingHandler(modular_server::Pin * pin_ptr)
 {
   stopMixing();
 }
