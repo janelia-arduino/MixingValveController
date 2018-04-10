@@ -14,8 +14,6 @@
 #include <ConstantVariable.h>
 #include <Functor.h>
 
-#include <ModularClient.h>
-
 #include <ModularServer.h>
 #include <ModularDeviceBase.h>
 #include <PowerSwitchController.h>

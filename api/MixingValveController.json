@@ -367,27 +367,24 @@
           {
             "name": "attachTo",
             "parameters": [
-              "pin",
-              "mode"
+              "pin_name",
+              "pin_mode"
             ]
           },
           {
             "name": "detachFrom",
             "parameters": [
-              "pin"
+              "pin_name"
             ]
-          },
-          {
-            "name": "detachFromAll"
           }
         ],
         "parameters": [
           {
-            "name": "pin",
+            "name": "pin_name",
             "type": "string"
           },
           {
-            "name": "mode",
+            "name": "pin_mode",
             "type": "string"
           }
         ]
