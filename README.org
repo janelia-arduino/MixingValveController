@@ -1,0 +1,71 @@
+#+TITLE: MixingValveController
+#+AUTHOR: Peter Polidoro
+#+EMAIL: peterpolidoro@gmail.com
+
+* Library Information
+  - Author :: Peter Polidoro
+  - License :: BSD
+
+* Ancestors
+
+  [[https://github.com/janelia-arduino/ModularServer][ModularServer]]
+
+  [[https://github.com/janelia-arduino/ModularDeviceBase][ModularDeviceBase]]
+
+  [[https://github.com/janelia-arduino/PowerSwitchController][PowerSwitchController]]
+
+* Clients
+
+* Devices
+
+  [[https://github.com/janelia-modular-devices/modular_device_base.git][modular_device_base]]
+
+  [[https://github.com/janelia-modular-devices/power_switch_controller.git][power_switch_controller]]
+
+* API NAMES
+
+  #+BEGIN_SRC js
+{
+  "id": "getApi",
+  "result": {
+    "firmware": [
+      "MixingValveController"
+    ],
+    "verbosity": "NAMES",
+    "functions": [
+      "getMixInfo",
+      "startMixing",
+      "setMixDurationFactored"
+    ],
+    "parameters": [
+      "ratio",
+      "duration"
+    ],
+    "properties": [
+      "valveCount",
+      "mixVolume",
+      "mixVolumeLimit",
+      "flowRate",
+      "mixResolution",
+      "mixDuration",
+      "valveSwitchDuration",
+      "valveOpenDurationLimit"
+    ],
+    "callbacks": [
+      "stopMixing"
+    ]
+  }
+}
+  #+END_SRC
+
+* API GENERAL
+
+  [[./api/][API GENERAL]]
+
+* More Detailed Modular Device Information
+
+  [[https://github.com/janelia-modular-devices/modular-devices][modular-devices]]
+
+* Library Dependencies
+
+  [[https://github.com/janelia-arduino/arduino-libraries][arduino-libraries]]
