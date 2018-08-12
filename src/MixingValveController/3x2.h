@@ -3,7 +3,7 @@
 //
 //
 // Authors:
-// Peter Polidoro polidorop@janelia.hhmi.org
+// Peter Polidoro peterpolidoro@gmail.com
 // ----------------------------------------------------------------------------
 #ifndef MIXING_VALVE_CONTROLLER_3X2_CONSTANTS_H
 #define MIXING_VALVE_CONTROLLER_3X2_CONSTANTS_H
