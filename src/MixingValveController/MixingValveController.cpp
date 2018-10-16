@@ -126,7 +126,7 @@ long MixingValveController::getMixVolumeFillDuration()
   return mix_volume_fill_duration_;
 }
 
-long MixingValveController::setMixDurationFactored(const long duration)
+long MixingValveController::setMixDurationFactored(long duration)
 {
   long mix_duration = constrainMixDuration(duration,
     mix_duration_min_,
@@ -218,9 +218,9 @@ size_t MixingValveController::valveValuesMaxIndex(MixingValveController::ValveVa
   return valve_values_max_index;
 }
 
-long MixingValveController::constrainMixDuration(const long mix_duration,
-  const long mix_duration_min,
-  const long mix_duration_max)
+long MixingValveController::constrainMixDuration(long mix_duration,
+  long mix_duration_min,
+  long mix_duration_max)
 {
   long constrained_mix_duration = mix_duration;
 

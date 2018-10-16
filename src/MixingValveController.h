@@ -34,7 +34,7 @@ public:
 
   long getMixVolumeFillDuration();
 
-  long setMixDurationFactored(const long duration);
+  long setMixDurationFactored(long duration);
 
 protected:
   virtual bool finishMix();
@@ -55,9 +55,9 @@ private:
   ValveValues normalizeRatio(ValveValues ratio);
   long valveValuesSum(ValveValues valve_values);
   size_t valveValuesMaxIndex(ValveValues valve_values);
-  long constrainMixDuration(const long mix_duration,
-    const long mix_duration_min,
-    const long mix_duration_max);
+  long constrainMixDuration(long mix_duration,
+    long mix_duration_min,
+    long mix_duration_max);
   void setMixInfo(ValveValues ratio);
 
   // Handlers
