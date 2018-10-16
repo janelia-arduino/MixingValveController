@@ -56,8 +56,8 @@ private:
   long valveValuesSum(ValveValues valve_values);
   size_t valveValuesMaxIndex(ValveValues valve_values);
   long constrainMixDuration(const long mix_duration,
-                            const long mix_duration_min,
-                            const long mix_duration_max);
+    const long mix_duration_min,
+    const long mix_duration_max);
   void setMixInfo(ValveValues ratio);
 
   // Handlers

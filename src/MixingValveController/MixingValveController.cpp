@@ -33,10 +33,10 @@ void MixingValveController::setup()
 
   // Add Firmware
   modular_server_.addFirmware(constants::firmware_info,
-                              properties_,
-                              parameters_,
-                              functions_,
-                              callbacks_);
+    properties_,
+    parameters_,
+    functions_,
+    callbacks_);
 
   // Properties
   modular_server::Property & valve_count_property = modular_server_.createProperty(constants::valve_count_property_name,constants::valve_count_default);
@@ -129,8 +129,8 @@ long MixingValveController::getMixVolumeFillDuration()
 long MixingValveController::setMixDurationFactored(const long duration)
 {
   long mix_duration = constrainMixDuration(duration,
-                                           mix_duration_min_,
-                                           mix_duration_max_);
+    mix_duration_min_,
+    mix_duration_max_);
 
   modular_server::Property & mix_duration_property = modular_server_.property(constants::mix_duration_property_name);
   mix_duration_property.setValue(mix_duration);
@@ -219,8 +219,8 @@ size_t MixingValveController::valveValuesMaxIndex(MixingValveController::ValveVa
 }
 
 long MixingValveController::constrainMixDuration(const long mix_duration,
-                                                 const long mix_duration_min,
-                                                 const long mix_duration_max)
+  const long mix_duration_min,
+  const long mix_duration_max)
 {
   long constrained_mix_duration = mix_duration;
 
@@ -424,8 +424,8 @@ void MixingValveController::mixHandler(int arg)
     }
 
     mix_info_.event_id = event_controller_.addEventUsingDelay(makeFunctor((Functor1<int> *)0,*this,&MixingValveController::mixHandler),
-                                                              valve_on_duration,
-                                                              mix_arg);
+      valve_on_duration,
+      mix_arg);
 
     event_controller_.enable(mix_info_.event_id);
   }
