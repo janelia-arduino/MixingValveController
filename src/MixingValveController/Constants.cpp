@@ -19,7 +19,7 @@ CONSTANT_STRING(firmware_name,"MixingValveController");
 const modular_server::FirmwareInfo firmware_info =
 {
   .name_ptr=&firmware_name,
-  .version_major=2,
+  .version_major=3,
   .version_minor=0,
   .version_patch=0,
 };

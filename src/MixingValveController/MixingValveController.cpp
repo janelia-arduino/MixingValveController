@@ -275,8 +275,8 @@ void MixingValveController::setMixInfo(MixingValveController::ValveValues ratio)
 // floating-point number (float, double)
 // bool
 // const char *
-// ArduinoJson::JsonArray *
-// ArduinoJson::JsonObject *
+// ArduinoJson::JsonArray
+// ArduinoJson::JsonObject
 // const ConstantString *
 //
 // For more info read about ArduinoJson parsing https://github.com/janelia-arduino/ArduinoJson
@@ -357,8 +357,8 @@ void MixingValveController::getMixInfoHandler()
 
 void MixingValveController::startMixingHandler()
 {
-  ArduinoJson::JsonArray * ratio_ptr;
-  modular_server_.parameter(constants::ratio_parameter_name).getValue(ratio_ptr);
+  ArduinoJson::JsonArray ratios;
+  modular_server_.parameter(constants::ratio_parameter_name).getValue(ratios);
 
   long valve_count;
   modular_server_.property(constants::valve_count_property_name).getValue(valve_count);
@@ -366,7 +366,7 @@ void MixingValveController::startMixingHandler()
   ValveValues mix_ratio;
   for (size_t valve=0; valve<(size_t)valve_count; ++valve)
   {
-    mix_ratio.push_back((*ratio_ptr)[valve]);
+    mix_ratio.push_back(ratios[valve]);
   }
 
   mix_ratio = startMixing(mix_ratio);
